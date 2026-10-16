@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St Isodore Science Academy - Web Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-500 text-white p-2 rounded-xl shadow-lg shadow-emerald-500/30 flex items-center justify-center">
+                    <i class="fa-solid fa-atom text-xl animate-spin" style="animation-duration: 12s;"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Science Department</span>
+                    <span class="text-xs block text-slate-500 dark:text-slate-400 font-medium">High School Science Hub</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 lg:space-x-4">
+                <a href="#overview" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition">Overview</a>
+                <a href="#units" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition">Courses</a>
+                <a href="#syllabus" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition">Syllabus</a>
+                <a href="#resources" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition">Resources</a>
+                <a href="#quiz-section" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition">Quizzes</a>
+                <a href="#tracker" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition">Progress Tracker</a>
+            </nav>
+
+            <!-- Actions (Theme Toggle & Profile) -->
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
+                <div class="hidden sm:flex items-center space-x-2 pl-2 border-l border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/40x40/10b981/ffffff?text=ST" alt="Student Avatar" class="w-9 h-9 rounded-full ring-2 ring-emerald-500/30 object-cover">
+                    <div class="text-left">
+                        <p class="text-xs font-semibold leading-tight">Content Creator</p>
+                        <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">J A Chan</p>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1">
+            <a href="#overview" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Overview</a>
+            <a href="#units" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Units</a>
+            <a href="#syllabus" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Syllabus</a>
+            <a href="#resources" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Resources</a>
+            <a href="#quiz-section" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Quizzes</a>
+            <a href="#tracker" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Progress Tracker</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section id="overview" class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-emerald-50/50 via-slate-50 to-white dark:from-slate-900/40 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200/60 dark:border-slate-800/60">
+            <div class="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] opacity-10 dark:opacity-5 pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase border border-emerald-200 dark:border-emerald-800/50">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>St Isodore Curriculum 2026/2027</span>
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                            Master the Universe Through <span class="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent">Scientific Inquiry</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 font-normal">
+                            Explore comprehensive modules in Biology, Chemistry, and Physics. Engage with interactive problem sets, dynamic simulations, and real-time proficiency tracking.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#units" class="px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-lg shadow-emerald-600/25 transition flex items-center space-x-2">
+                                <span>Explore Curriculum</span>
+                                <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </a>
+                            <a href="#quiz-section" class="px-6 py-3.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900 font-semibold transition flex items-center space-x-2">
+                                <i class="fa-solid fa-bolt text-amber-500"></i>
+                                <span>Take Practice Quiz</span>
+                            </a>
+                        </div>
+                        <!-- Quick Stats -->
+                        <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-200 dark:border-slate-800 max-w-lg mx-auto lg:mx-0">
+                            <div>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">4 Core</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Science Disciplines</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">24 Units</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Interactive Modules</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">100%</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Interactive Graphic / Card -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl relative">
+                            <div class="absolute -top-3 -right-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                                Active Term: Q1
+                            </div>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                    <i class="fa-solid fa-book-open text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg">Current Course Status</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Integrated Science Honors (SCI-301)</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Overall Progress Bar in Hero -->
+                            <div class="space-y-2 mb-6">
+                                <div class="flex justify-between text-sm font-semibold">
+                                    <span>Semester Completion</span>
+                                    <span id="hero-progress-text" class="text-emerald-600 dark:text-emerald-400">75%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+                                    <div id="hero-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 75%"></div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 bg-slate-50 dark:bg-slate-950/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="flex items-center space-x-2 text-slate-600 dark:text-slate-300">
+                                        <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                        <span>Biology: Genetics & DNA</span>
+                                    </span>
+                                    <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded">Completed</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="flex items-center space-x-2 text-slate-600 dark:text-slate-300">
+                                        <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                                        <span>Chemistry: Stoichiometry</span>
+                                    </span>
+                                    <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded">Completed</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="flex items-center space-x-2 text-slate-600 dark:text-slate-300">
+                                        <i class="fa-solid fa-spinner fa-spin text-amber-500"></i>
+                                        <span>Physics: Motion and Vectors</span>
+                                    </span>
+                                    <span class="text-xs font-bold px-2 py-0.5 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded">In Progress</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subject Units Section -->
+        <section id="units" class="py-20 bg-white dark:bg-slate-900/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Core Subject Units</h2>
+                    <p class="text-slate-600 dark:text-slate-400">Dive deep into our four foundational science pillars designed for 
+                        rigorous high school inquiry and AP/Honors preparation.</p>
+                </div>
+
+                <!-- Subject Tabs Navigation -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12" id="subject-tabs">
+                    <button onclick="switchSubject('biology')" data-subject="biology" class="subject-tab px-5 py-3 rounded-xl font-semibold text-sm transition bg-emerald-600 text-white shadow-md shadow-emerald-600/20 flex items-center space-x-2">
+                        <i class="fa-solid fa-dna"></i>
+                        <span>Biology</span>
+                    </button>
+                    <button onclick="switchSubject('chemistry')" data-subject="chemistry" class="subject-tab px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center space-x-2">
+                        <i class="fa-solid fa-flask"></i>
+                        <span>Chemistry</span>
+                    </button>
+                    <button onclick="switchSubject('physics')" data-subject="physics" class="subject-tab px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center space-x-2">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Physics</span>
+                    </button>
+                    <button onclick="switchSubject('earth')" data-subject="earth" class="subject-tab px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center space-x-2">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>Junior High Science</span>
+                    </button>
+                </div>
+
+                <!-- Subject Content Container -->
+                <div id="subject-content" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Dynamically populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Syllabus & Grading Breakdown Section -->
+        <section id="syllabus" class="py-20 bg-slate-50 dark:bg-slate-950 border-t border-b border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span>Academic Policy</span>
+                        </div>
+                        <h2 class="text-3xl font-extrabold tracking-tight">Syllabus & Grading Breakdown</h2>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            Our curriculum emphasizes mastery-based learning, practical laboratory safety, collaborative inquiry, and 
+                            critical analytical thinking.
+                        </p>
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-start space-x-3">
+                                <div class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 p-2 rounded-lg mt-1">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Formative & Summative Assessments</h4>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">Regular quizzes, lab reports, and unit exams to test comprehensive conceptual retention.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 p-2 rounded-lg mt-1">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white">Mandatory Lab Competency</h4>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">Hands-on experimentation with strict adherence to 
+                                        safety protocols and data logging.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grading Weights Card -->
+                    <div class="lg:col-span-7">
+                        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                            <h3 class="text-xl font-bold flex items-center space-x-2">
+                                <i class="fa-solid fa-chart-pie text-emerald-500"></i>
+                                <span>Grade Weight Distribution</span>
+                            </h3>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm font-semibold mb-1">
+                                        <span>Exams & Unit Tests</span>
+                                        <span class="text-emerald-600 dark:text-emerald-400">35%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full rounded-full" style="width: 35%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm font-semibold mb-1">
+                                        <span>Laboratory Investigations & Reports</span>
+                                        <span class="text-emerald-600 dark:text-emerald-400">25%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-teal-500 h-full rounded-full" style="width: 25%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm font-semibold mb-1">
+                                        <span>Quizzes & Weekly Problem Sets</span>
+                                        <span class="text-emerald-600 dark:text-emerald-400">20%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-cyan-500 h-full rounded-full" style="width: 20%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm font-semibold mb-1">
+                                        <span>Quarterly STEM Research Project</span>
+                                        <span class="text-emerald-600 dark:text-emerald-400">15%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-indigo-500 h-full rounded-full" style="width: 15%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm font-semibold mb-1">
+                                        <span>Class Engagement & Participation</span>
+                                        <span class="text-emerald-600 dark:text-emerald-400">5%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+                                        <div class="bg-amber-500 h-full rounded-full" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Downloadable Resources & Homework Section -->
+        <section id="resources" class="py-20 bg-white dark:bg-slate-900/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div class="space-y-2">
+                        <h2 class="text-3xl font-extrabold tracking-tight">Homework & Downloadable Resources</h2>
+                        <p class="text-slate-600 dark:text-slate-400">Access lab manuals, periodic tables, equation sheets, and weekly homework packets.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <span class="inline-flex items-center space-x-1 text-sm font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            <span>All Files Verified & Updated</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Resource Card 1 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-emerald-500/50 transition group">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-file-pdf text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Chemistry</span>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white mt-1">High-Res Periodic Table & Constants</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Includes electronegativities, common isotopes, and fundamental physical constants.</p>
+                            </div>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400 font-mono">PDF • 2.4 MB</span>
+                            <button onclick="triggerDownload('Periodic_Table_Constants.pdf')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resource Card 2 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-emerald-500/50 transition group">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-teal-100 dark:bg-teal-950 flex items-center justify-center text-teal-600 dark:text-teal-400 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-file-lines text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wider">Biology</span>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white mt-1">Cellular Respiration Lab Manual</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Complete step-by-step procedure for yeast fermentation and respirometer setup.</p>
+                            </div>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400 font-mono">PDF • 4.1 MB</span>
+                            <button onclick="triggerDownload('Cellular_Respiration_Lab.pdf')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resource Card 3 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-emerald-500/50 transition group">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-100 dark:bg-cyan-950 flex items-center justify-center text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-calculator text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Physics</span>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white mt-1">Kinematics & Dynamics Formula Sheet</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Summary of Newtonian mechanics equations, vector formulas, and calculus relations.</p>
+                            </div>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400 font-mono">PDF • 1.8 MB</span>
+                            <button onclick="triggerDownload('Physics_Formula_Sheet.pdf')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resource Card 4 -->
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-emerald-500/50 transition group">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-folder-open text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Homework</span>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white mt-1">Week 12 Problem Packet (All Units)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Mandatory problem set covering stoichiometry balance and projectile motion.</p>
+                            </div>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-400 font-mono">ZIP • 8.5 MB</span>
+                            <button onclick="triggerDownload('Week_12_Homework_Packet.zip')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Practice Quizzes Section -->
+        <section id="quiz-section" class="py-20 bg-slate-50 dark:bg-slate-950 border-t border-b border-slate-200 dark:border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 space-y-3">
+                    <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-xs font-semibold uppercase">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Interactive Self-Assessment</span>
+                    </span>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Science Knowledge Check</h2>
+                    <p class="text-slate-600 dark:text-slate-400">Test your high school science aptitude with this rapid 3-question diagnostic quiz.</p>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xl">
+                    <div id="quiz-container">
+                        <!-- Question Progress -->
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+                            <span id="quiz-step-indicator" class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Question 1 of 3</span>
+                            <span id="quiz-score-badge" class="text-xs font-semibold bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">Score: 0/0</span>
+                        </div>
+
+                        <!-- Question Box -->
+                        <div id="quiz-question-box" class="space-y-6">
+                            <h3 id="quiz-question-text" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                                Which organelle is primarily responsible for generating ATP through cellular respiration in eukaryotic cells?
+                            </h3>
+                            <div id="quiz-options-list" class="space-y-3">
+                                <!-- Options populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Quiz Feedback / Next Button -->
+                        <div id="quiz-footer" class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between hidden">
+                            <p id="quiz-feedback-text" class="text-sm font-semibold"></p>
+                            <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow transition flex items-center space-x-2">
+                                <span>Next Question</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Complete State -->
+                    <div id="quiz-complete-state" class="hidden text-center py-8 space-y-6">
+                        <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-2xl font-bold">Quiz Completed Successfully!</h3>
+                            <p id="quiz-final-score-text" class="text-slate-600 dark:text-slate-400 text-lg">You scored 3 out of 3 correct.</p>
+                        </div>
+                        <button onclick="resetQuiz()" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow transition">
+                            Retake Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Progress Tracker Section -->
+        <section id="tracker" class="py-20 bg-white dark:bg-slate-900/50">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 space-y-3">
+                    <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-cyan-100 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 text-xs font-semibold uppercase">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Interactive Dashboard</span>
+                    </span>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Student Progress Tracker</h2>
+                    <p class="text-slate-600 dark:text-slate-400">Mark off completed modules and update your personal learning milestones in real time.</p>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xl space-y-8">
+                    <!-- Progress summary header -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <div>
+                            <h3 class="text-lg font-bold">Overall Course Mastery</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Based on checked checklist items below</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <span id="tracker-percentage" class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">60%</span>
+                                <span class="text-xs block text-slate-400">Completed</span>
+                            </div>
+                            <div class="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold text-lg">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist items -->
+                    <div class="space-y-4" id="tracker-checklist">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="flex justify-end pt-4 border-t border-slate-200 dark:border-slate-800">
+                        <button onclick="resetTracker()" class="text-xs font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Reset Checklist Progress</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-emerald-500 text-white p-2 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-atom"></i>
+                        </div>
+                        <span class="font-bold text-lg">Nexus STEM Academy</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Empowering the next generation of scientists, engineers, and critical thinkers through immersive high school science education.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 text-slate-900 dark:text-white">Quick Links</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
+                        <li><a href="#overview" class="hover:text-emerald-600 transition">Course Overview</a></li>
+                        <li><a href="#units" class="hover:text-emerald-600 transition">Subject Units</a></li>
+                        <li><a href="#syllabus" class="hover:text-emerald-600 transition">Syllabus & Grading</a></li>
+                        <li><a href="#resources" class="hover:text-emerald-600 transition">Downloadable Files</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 text-slate-900 dark:text-white">Disciplines</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
+                        <li><a href="#units" onclick="switchSubject('biology')" class="hover:text-emerald-600 transition">Molecular Biology</a></li>
+                        <li><a href="#units" onclick="switchSubject('chemistry')" class="hover:text-emerald-600 transition">Advanced Chemistry</a></li>
+                        <li><a href="#units" onclick="switchSubject('physics')" class="hover:text-emerald-600 transition">Physics & Mechanics</a></li>
+                        <li><a href="#units" onclick="switchSubject('earth')" class="hover:text-emerald-600 transition">Earth & Space Science</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm mb-4 text-slate-900 dark:text-white">Academic Term</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                        Spring Semester 2026<br>
+                        Instructor: Dr. Marcus Thorne<br>
+                        Room: Science Pavilion 304
+                    </p>
+                    <div class="flex space-x-3 text-slate-400">
+                        <a href="#" class="hover:text-emerald-600 transition"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-emerald-600 transition"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="hover:text-emerald-600 transition"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row items-center justify-between">
+                <p>&copy; 2026 Nexus STEM High School Academy. All rights reserved.</p>
+                <p class="mt-2 sm:mt-0 flex items-center space-x-1">
+                    <span>Designed with</span>
+                    <i class="fa-solid fa-heart text-red-500"></i>
+                    <span>for Scientific Excellence</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 text-sm font-semibold">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-message">Action completed successfully!</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- Theme Toggle Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        // Check initial theme preference
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                showToast('Switched to Light Mode', 'fa-sun');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                showToast('Switched to Dark Mode', 'fa-moon');
+            }
+        });
+
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Toast Notification ---
+        function showToast(message, iconClass = 'fa-circle-check') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.textContent = message;
+            toastIcon.className = `fa-solid ${iconClass} text-emerald-400`;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- Download Simulation ---
+        function triggerDownload(fileName) {
+            showToast(`Downloading ${fileName}...`, 'fa-download');
+        }
+
+        // --- Subject Units Data ---
+        const subjectsData = {
+            biology: [
+                {
+                    title: "Molecular Genetics & DNA",
+                    badge: "Unit 1 • Biology",
+                    desc: "Study DNA replication, transcription, translation, and CRISPR gene editing technologies in modern biotechnology.",
+                    duration: "3 Weeks",
+                    lessons: "6 Modules"
+                },
+                {
+                    title: "Cellular Energetics & Respiration",
+                    badge: "Unit 2 • Biology",
+                    desc: "Explore photosynthesis, the Krebs cycle, oxidative phosphorylation, and cellular ATP synthesis pathways.",
+                    duration: "4 Weeks",
+                    lessons: "8 Modules"
+                },
+                {
+                    title: "Evolutionary Biology & Ecology",
+                    badge: "Unit 3 • Biology",
+                    desc: "Analyze natural selection, population genetics, speciation, and trophic interactions within ecosystems.",
+                    duration: "3 Weeks",
+                    lessons: "5 Modules"
+                }
+            ],
+            chemistry: [
+                {
+                    title: "Stoichiometry & Chemical Reactions",
+                    badge: "Unit 1 • Chemistry",
+                    desc: "Master mole calculations, limiting reactants, percent yield, and balanced redox equation stoichiometry.",
+                    duration: "4 Weeks",
+                    lessons: "7 Modules"
+                },
+                {
+                    title: "Thermodynamics & Kinetics",
+                    badge: "Unit 2 • Chemistry",
+                    desc: "Investigate enthalpy, entropy, Gibbs free energy, reaction rates, and activation energy barriers.",
+                    duration: "3 Weeks",
+                    lessons: "6 Modules"
+                },
+                {
+                    title: "Acids, Bases & Equilibrium",
+                    badge: "Unit 3 • Chemistry",
+                    desc: "Calculate pH/pOH, buffer solutions, Le Chatelier's principle, and dynamic equilibrium constants (Kc, Kp).",
+                    duration: "4 Weeks",
+                    lessons: "8 Modules"
+                }
+            ],
+            physics: [
+                {
+                    title: "Newtonian Mechanics & Kinematics",
+                    badge: "Unit 1 • Physics",
+                    desc: "Analyze 2D projectile motion, Newton's laws of motion, momentum conservation, and rotational dynamics.",
+                    duration: "4 Weeks",
+                    lessons: "8 Modules"
+                },
+                {
+                    title: "Electromagnetism & Circuits",
+                    badge: "Unit 2 • Physics",
+                    desc: "Explore Coulomb's law, electric fields, magnetic induction, Faraday's law, and complex DC/AC circuits.",
+                    duration: "4 Weeks",
+                    lessons: "7 Modules"
+                },
+                {
+                    title: "Waves, Optics & Modern Physics",
+                    badge: "Unit 3 • Physics",
+                    desc: "Study wave interference, diffraction gratings, geometrical optics, and quantum photoelectric effects.",
+                    duration: "3 Weeks",
+                    lessons: "6 Modules"
+                }
+            ],
+            earth: [
+                {
+                    title: "Plate Tectonics & Geodynamics",
+                    badge: "Unit 1 • Earth Science",
+                    desc: "Examine mantle convection, earthquake seismology, continental drift, and mountain building processes.",
+                    duration: "3 Weeks",
+                    lessons: "5 Modules"
+                },
+                {
+                    title: "Atmospheric Science & Climate",
+                    badge: "Unit 2 • Earth Science",
+                    desc: "Investigate atmospheric circulation cells, Coriolis effect, severe weather dynamics, and global climate models.",
+                    duration: "3 Weeks",
+                    lessons: "6 Modules"
+                },
+                {
+                    title: "Astronomy & Stellar Evolution",
+                    badge: "Unit 3 • Earth Science",
+                    desc: "Study Hertzsprung-Russell diagrams, stellar nucleosynthesis, black holes, and cosmic expansion.",
+                    duration: "4 Weeks",
+                    lessons: "7 Modules"
+                }
+            ]
+        };
+
+        function switchSubject(subjectKey) {
+            // Update button styles
+            document.querySelectorAll('.subject-tab').forEach(btn => {
+                if (btn.getAttribute('data-subject') === subjectKey) {
+                    btn.className = "subject-tab px-5 py-3 rounded-xl font-semibold text-sm transition bg-emerald-600 text-white shadow-md shadow-emerald-600/20 flex items-center space-x-2";
+                } else {
+                    btn.className = "subject-tab px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center space-x-2";
+                }
+            });
+
+            // Render cards
+            const container = document.getElementById('subject-content');
+            const items = subjectsData[subjectKey];
+            let html = '';
+
+            items.forEach(item => {
+                html += `
+                    <div class="bg-slate-50 dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-emerald-500/50 transition shadow-sm group">
+                        <div class="space-y-4">
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">${item.badge}</span>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 transition">${item.title}</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${item.desc}</p>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+                            <span class="flex items-center space-x-1">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>${item.duration}</span>
+                            </span>
+                            <span class="flex items-center space-x-1">
+                                <i class="fa-solid fa-book-bookmark"></i>
+                                <span>${item.lessons}</span>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Initialize default subject view
+        switchSubject('biology');
+
+        // --- Interactive Quiz Logic ---
+        const quizQuestions = [
+            {
+                question: "Which organelle is primarily responsible for generating ATP through cellular respiration in eukaryotic cells?",
+                options: [
+                    "Ribosome",
+                    "Mitochondria",
+                    "Endoplasmic Reticulum",
+                    "Golgi Apparatus"
+                ],
+                correct: 1
+            },
+            {
+                question: "In stoichiometry, what is the molar mass of water (H₂O) approximately?",
+                options: [
+                    "12.01 g/mol",
+                    "16.00 g/mol",
+                    "18.015 g/mol",
+                    "22.99 g/mol"
+                ],
+                correct: 2
+            },
+            {
+                question: "According to Newton's Second Law of Motion, force is equal to mass multiplied by what?",
+                options: [
+                    "Velocity",
+                    "Acceleration",
+                    "Displacement",
+                    "Momentum"
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function loadQuizQuestion() {
+            quizAnswered = false;
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-step-indicator').textContent = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-score-badge').textContent = `Score: ${quizScore}/${quizQuestions.length}`;
+            document.getElementById('quiz-question-text').textContent = q.question;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, idx) => {
+                optionsHtml += `
+                    <button onclick="selectQuizOption(${idx})" id="quiz-opt-${idx}" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 bg-slate-50 dark:bg-slate-950 font-medium text-sm transition flex items-center justify-between">
+                        <span>${opt}</span>
+                        <span class="w-6 h-6 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-transparent">✓</span>
+                    </button>
+                `;
+            });
+            document.getElementById('quiz-options-list').innerHTML = optionsHtml;
+            document.getElementById('quiz-footer').classList.add('hidden');
+        }
+
+        function selectQuizOption(selectedIndex) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const feedbackText = document.getElementById('quiz-feedback-text');
+            const footer = document.getElementById('quiz-footer');
+
+            for (let i = 0; i < q.options.length; i++) {
+                const btn = document.getElementById(`quiz-opt-${i}`);
+                btn.disabled = true;
+                if (i === q.correct) {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 font-medium text-sm flex items-center justify-between";
+                } else if (i === selectedIndex) {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-red-500 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-200 font-medium text-sm flex items-center justify-between";
+                }
+            }
+
+            if (selectedIndex === q.correct) {
+                quizScore++;
+                feedbackText.textContent = "Correct! Great job.";
+                feedbackText.className = "text-sm font-semibold text-emerald-600 dark:text-emerald-400";
+            } else {
+                feedbackText.textContent = `Incorrect. The correct answer was: ${q.options[q.correct]}`;
+                feedbackText.className = "text-sm font-semibold text-red-600 dark:text-red-400";
+            }
+
+            document.getElementById('quiz-score-badge').textContent = `Score: ${quizScore}/${quizQuestions.length}`;
+            footer.classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                document.getElementById('quiz-question-box').classList.add('hidden');
+                document.getElementById('quiz-footer').classList.add('hidden');
+                document.getElementById('quiz-complete-state').classList.remove('hidden');
+                document.getElementById('quiz-final-score-text').textContent = `You scored ${quizScore} out of ${quizQuestions.length} correct.`;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-question-box').classList.remove('hidden');
+            document.getElementById('quiz-complete-state').classList.add('hidden');
+            loadQuizQuestion();
+        }
+
+        // Initialize Quiz
+        loadQuizQuestion();
+
+        // --- Student Progress Tracker Checklist Logic ---
+        const trackerItems = [
+            { id: 't1', title: 'Unit 1: Molecular Genetics & DNA Lab Completed', category: 'Biology', done: true },
+            { id: 't2', title: 'Unit 2: Cellular Respiration Quiz Passed (>= 85%)', category: 'Biology', done: true },
+            { id: 't3', title: 'Unit 1: Stoichiometry Problem Set Submitted', category: 'Chemistry', done: true },
+            { id: 't4', title: 'Unit 2: Thermodynamics Calorimetry Experiment', category: 'Chemistry', done: false },
+            { id: 't5', title: 'Unit 1: Newtonian Kinematics Exam Completed', category: 'Physics', done: true },
+            { id: 't6', title: 'Unit 2: Electromagnetism DC Circuit Lab Report', category: 'Physics', done: false },
+            { id: 't7', title: 'Unit 1: Plate Tectonics Research Assignment', category: 'Earth Science', done: true },
+            { id: 't8', title: 'Quarterly STEM Research Project Draft', category: 'General', done: false }
+        ];
+
+        function renderTracker() {
+            const container = document.getElementById('tracker-checklist');
+            let html = '';
+            let completedCount = 0;
+
+            trackerItems.forEach((item, index) => {
+                if (item.done) completedCount++;
+                html += `
+                    <label class="flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 hover:border-emerald-500/50 cursor-pointer transition select-none">
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleTrackerItem(${index})" class="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                            <div>
+                                <span class="font-semibold text-sm ${item.done ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-white'}">${item.title}</span>
+                                <span class="block text-[11px] text-slate-400">${item.category}</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full ${item.done ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">
+                            ${item.done ? 'Completed' : 'Pending'}
+                        </span>
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            const percentage = Math.round((completedCount / trackerItems.length) * 100);
+            document.getElementById('tracker-percentage').textContent = `${percentage}%`;
+        }
+
+        function toggleTrackerItem(index) {
+            trackerItems[index].done = !trackerItems[index].done;
+            renderTracker();
+            showToast('Progress updated successfully!', 'fa-circle-check');
+        }
+
+        function resetTracker() {
+            trackerItems.forEach(item => item.done = false);
+            renderTracker();
+            showToast('Progress checklist reset.', 'fa-rotate-right');
+        }
+
+        // Initialize Tracker
+        renderTracker();
+    </script>
+</body>
+</html>
